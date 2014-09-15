@@ -13,7 +13,7 @@ public class OneTest {
   @Test
   public void testBoth() throws Exception {
     One one = new One();
-    assertEquals("foo", one.toto());
+    assertEquals("toto", one.toto());
     assertEquals("foo", one.foo());
   }
 }
