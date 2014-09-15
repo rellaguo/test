@@ -9,7 +9,7 @@ public class One {
   }
 
   public String toto() {
-    return message2;
+    return message;
   }
 
   public void uncoveredMethod() {
