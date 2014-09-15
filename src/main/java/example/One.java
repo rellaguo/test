@@ -4,7 +4,7 @@ public class One {
   String message = "foo";
 
   public String foo() {
-    return message;
+    return messag;
   }
 
   public void uncoveredMethod() {
