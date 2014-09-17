@@ -5,11 +5,11 @@ public class One {
   String message2 = "toto";
 
   public String foo() {
-    return message2;
+    return message;
   }
 
   public String toto() {
-    return message2;
+    return message;
   }
 
   public void uncoveredMethod() {
