@@ -1,30 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.codehaus.sonar</groupId>
-  <artifactId>example-ut-maven-jacoco</artifactId>
+  <groupId>org.example.app-example</groupId>
+  <artifactId>parent</artifactId>
+  <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
-  <name>UT coverage with Maven and JaCoCo</name>
+  <name>JaCoCo Examples :: app-example :: parent</name>
+
+  <modules>
+    <module>app</module>
+    <module>app-it</module>
+  </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- Sonar -->
+    <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+    <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+    <!-- The destination file for the code coverage report has to be set to the same value
+         in the parent pom and in each module pom. Then JaCoCo will add up information in
+         the same report, so that, it will give the cross-module code coverage. -->
+    <sonar.jacoco.itReportPath>${project.basedir}/../target/jacoco-it.exec</sonar.jacoco.itReportPath>
+	<sonar.language>java</sonar.language>
   </properties>
 
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <!-- Minimal supported version is 4.7 -->
-      <version>4.11</version>
+      <version>4.8.1</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.5.3.201107060350</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
+      <plugin>
+        <groupId>org.jacoco</groupId>
+        <artifactId>jacoco-maven-plugin</artifactId>
+        <configuration>
+          <includes>example.*</includes>
+        </configuration>
+        <executions>
+          <execution>
+            <id>pre-test</id>
+            <goals>
+              <goal>prepare-agent</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>post-test</id>
+            <phase>test</phase>
+            <goals>
+              <goal>report</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -32,44 +78,8 @@
           <source>1.5</source>
           <target>1.5</target>
         </configuration>
-      </plugin>
+       </plugin>
     </plugins>
   </build>
 
-  
-  <!-- BEGIN: Specific to mapping unit tests and covered code -->
-  <profiles>
-    <profile>
-      <id>coverage-per-test</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <!-- Minimal supported version is 2.4 -->
-            <version>2.13</version>
-            <configuration>
-              <properties>
-                <property>
-                  <name>listener</name>
-                  <value>org.sonar.java.jacoco.JUnitListener</value>
-                </property>
-              </properties>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-
-      <dependencies>
-        <dependency>
-          <groupId>org.codehaus.sonar-plugins.java</groupId>
-          <artifactId>sonar-jacoco-listeners</artifactId>
-          <version>1.2</version>
-          <scope>test</scope>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
-  <!-- END: Specific to mapping unit tests and covered code -->
-  
 </project>
