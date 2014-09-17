@@ -5,7 +5,7 @@ public class One {
   String message2 = "toto";
 
   public String foo() {
-    return messag;
+    return message2;
   }
 
   public String toto() {
