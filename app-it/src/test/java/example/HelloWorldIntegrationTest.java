@@ -6,7 +6,7 @@ public class HelloWorldIntegrationTest {
 
     @Test
     public void test() {
-        new HelloWorld().coveredByIntegrationTest();
+        assertEquals("coveredByIntegrationTest", new HelloWorld().coveredByIntegrationTest());
     }
 	
 }

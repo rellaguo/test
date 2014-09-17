@@ -6,7 +6,7 @@ public class HelloWorldUnitTest {
     
 	@Test
     public void test() {
-        new HelloWorld().coveredByUnitTest();
+        assertEquals("coveredByUnitTest", new HelloWorld().coveredByUnitTest());
     }
 	
 }
